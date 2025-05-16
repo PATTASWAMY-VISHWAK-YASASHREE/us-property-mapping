@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT Property & Wealth Data Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>US Property & Wealth Intelligence Map</h1>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search by address, name, or property ID...">
+                <button id="search-button" title="Search"><i class="fas fa-search"></i><span class="visually-hidden">Search</span></button>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="filter-section">
+                    <h3>Data Filters</h3>
+                    <div class="filter-group">
+                        <h4>Property Value</h4>
+                        <div class="range-slider">
+                            <label for="property-value-slider" class="visually-hidden">Property Value</label>
+                            <input type="range" min="0" max="10000000" step="50000" value="500000" id="property-value-slider" title="Select property value">
+                            <span id="property-value-display">$500,000</span>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <h4>Property Type</h4>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" value="residential" checked> Residential</label>
+                            <label><input type="checkbox" value="commercial"> Commercial</label>
+                            <label><input type="checkbox" value="industrial"> Industrial</label>
+                            <label><input type="checkbox" value="land"> Vacant Land</label>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <h4>Year Built</h4>
+                        <div class="range-slider">
+                            <label for="year-built-slider" class="visually-hidden">Year Built</label>
+                            <input type="range" min="1800" max="2023" step="1" value="1950" id="year-built-slider" title="Select year built">
+                            <span id="year-built-display">1950</span>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <h4>Data Sources</h4>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" value="county-records" checked> County Records</label>
+                            <label><input type="checkbox" value="tax-assessor" checked> Tax Assessor</label>
+                            <label><input type="checkbox" value="census" checked> Census Data</label>
+                            <label><input type="checkbox" value="business-registrations"> Business Registrations</label>
+                        </div>
+                    </div>
+                    <button id="apply-filters">Apply Filters</button>
+                </div>
+            </div>
+            
+            <div id="map"></div>
+            
+            <div class="property-details" id="property-details">
+                <div class="close-button" id="close-details">&times;</div>
+                <h2 id="property-address">Property Details</h2>
+                <div class="details-tabs">
+                    <button class="tab-button active" data-tab="basic-info">Basic Info</button>
+                    <button class="tab-button" data-tab="ownership">Ownership</button>
+                    <button class="tab-button" data-tab="financial">Financial</button>
+                    <button class="tab-button" data-tab="history">History</button>
+                </div>
+                <div class="tab-content active" id="basic-info">
+                    <div class="detail-row">
+                        <span class="detail-label">Property Type:</span>
+                        <span class="detail-value" id="property-type">Single Family Home</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Year Built:</span>
+                        <span class="detail-value" id="year-built">1985</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Square Footage:</span>
+                        <span class="detail-value" id="square-footage">2,450 sq ft</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Lot Size:</span>
+                        <span class="detail-value" id="lot-size">0.25 acres</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Bedrooms:</span>
+                        <span class="detail-value" id="bedrooms">4</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Bathrooms:</span>
+                        <span class="detail-value" id="bathrooms">2.5</span>
+                    </div>
+                </div>
+                <div class="tab-content" id="ownership">
+                    <div class="detail-row">
+                        <span class="detail-label">Current Owner:</span>
+                        <span class="detail-value" id="current-owner">John & Jane Doe</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Owner Since:</span>
+                        <span class="detail-value" id="owner-since">June 2015</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Owner Type:</span>
+                        <span class="detail-value" id="owner-type">Individual</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Mailing Address:</span>
+                        <span class="detail-value" id="mailing-address">Same as property</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Related Properties:</span>
+                        <span class="detail-value" id="related-properties">2 other properties owned</span>
+                    </div>
+                </div>
+                <div class="tab-content" id="financial">
+                    <div class="detail-row">
+                        <span class="detail-label">Current Value:</span>
+                        <span class="detail-value" id="current-value">$425,000</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Last Sale Price:</span>
+                        <span class="detail-value" id="last-sale-price">$375,000</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Last Sale Date:</span>
+                        <span class="detail-value" id="last-sale-date">June 15, 2015</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Property Taxes:</span>
+                        <span class="detail-value" id="property-taxes">$4,250 (2022)</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Tax Assessment:</span>
+                        <span class="detail-value" id="tax-assessment">$395,000</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Mortgage Info:</span>
+                        <span class="detail-value" id="mortgage-info">$300,000 (2015)</span>
+                    </div>
+                </div>
+                <div class="tab-content" id="history">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">2015</div>
+                            <div class="timeline-content">
+                                <h4>Property Sold</h4>
+                                <p>Purchased by John & Jane Doe for $375,000</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2010</div>
+                            <div class="timeline-content">
+                                <h4>Major Renovation</h4>
+                                <p>Kitchen remodel and bathroom addition</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2005</div>
+                            <div class="timeline-content">
+                                <h4>Property Sold</h4>
+                                <p>Purchased by Robert Smith for $285,000</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">1985</div>
+                            <div class="timeline-content">
+                                <h4>Property Built</h4>
+                                <p>Original construction completed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Data sources: County Records, Tax Assessor Data, US Census, Property Records</p>
+            <p>This tool is for informational purposes only. Data may not be current or accurate.</p>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/data-sources.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
