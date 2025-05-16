@@ -1,0 +1,324 @@
+{
+  "wealthyIndividuals": [
+    {
+      "name": "Elon Musk",
+      "netWorth": "$180 billion",
+      "properties": [
+        {
+          "address": "Hillsborough Estate, CA",
+          "coordinates": [37.5580, -122.3550],
+          "value": "$32,000,000",
+          "bedrooms": 10,
+          "bathrooms": 9,
+          "squareFootage": 16000,
+          "description": "100-year-old mansion spanning 47 acres",
+          "boundaries": {
+            "northLat": 37.5590,
+            "southLat": 37.5570,
+            "eastLng": -122.3540,
+            "westLng": -122.3560
+          },
+          "history": [
+            {"year": 2017, "value": "$29,500,000"},
+            {"year": 2019, "value": "$30,800,000"},
+            {"year": 2021, "value": "$32,000,000"}
+          ],
+          "marketTrends": {
+            "yearlyAppreciation": "4.2%",
+            "areaMedianPrice": "$5,200,000",
+            "pricePerSqFt": "$2,000"
+          },
+          "nearbyProperties": [
+            {"address": "Neighboring Estate", "value": "$28,500,000", "distance": "0.5 miles"},
+            {"address": "Luxury Villa", "value": "$18,900,000", "distance": "0.8 miles"}
+          ]
+        },
+        {
+          "address": "Bel-Air Mansion, Los Angeles",
+          "coordinates": [34.0829, -118.4489],
+          "value": "$29,000,000",
+          "bedrooms": 7,
+          "bathrooms": 11,
+          "squareFootage": 16251,
+          "description": "Overlooking Bel-Air Country Club",
+          "boundaries": {
+            "northLat": 34.0839,
+            "southLat": 34.0819,
+            "eastLng": -118.4479,
+            "westLng": -118.4499
+          },
+          "history": [
+            {"year": 2016, "value": "$24,500,000"},
+            {"year": 2018, "value": "$26,200,000"},
+            {"year": 2020, "value": "$29,000,000"}
+          ],
+          "marketTrends": {
+            "yearlyAppreciation": "5.8%",
+            "areaMedianPrice": "$4,800,000",
+            "pricePerSqFt": "$1,784"
+          },
+          "nearbyProperties": [
+            {"address": "Celebrity Estate", "value": "$32,100,000", "distance": "0.3 miles"},
+            {"address": "Modern Mansion", "value": "$27,500,000", "distance": "0.6 miles"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Jeff Bezos",
+      "netWorth": "$140 billion",
+      "properties": [
+        {
+          "address": "Beverly Hills Estate, Los Angeles",
+          "coordinates": [34.0920, -118.4105],
+          "value": "$175,000,000",
+          "bedrooms": 13,
+          "bathrooms": 25,
+          "squareFootage": 28000,
+          "description": "Former Warner Estate",
+          "boundaries": {
+            "northLat": 34.0930,
+            "southLat": 34.0910,
+            "eastLng": -118.4095,
+            "westLng": -118.4115
+          },
+          "history": [
+            {"year": 2015, "value": "$150,000,000"},
+            {"year": 2018, "value": "$165,000,000"},
+            {"year": 2020, "value": "$175,000,000"}
+          ],
+          "marketTrends": {
+            "yearlyAppreciation": "3.9%",
+            "areaMedianPrice": "$8,900,000",
+            "pricePerSqFt": "$6,250"
+          },
+          "nearbyProperties": [
+            {"address": "Hollywood Hills Estate", "value": "$95,000,000", "distance": "1.2 miles"},
+            {"address": "Beverly Hills Mansion", "value": "$85,000,000", "distance": "0.9 miles"}
+          ]
+        },
+        {
+          "address": "Fifth Avenue Apartment, New York",
+          "coordinates": [40.7639, -73.9740],
+          "value": "$96,000,000",
+          "bedrooms": 5,
+          "bathrooms": 6,
+          "squareFootage": 10000,
+          "description": "Three-story penthouse",
+          "boundaries": {
+            "northLat": 40.7642,
+            "southLat": 40.7636,
+            "eastLng": -73.9737,
+            "westLng": -73.9743
+          },
+          "history": [
+            {"year": 2016, "value": "$80,000,000"},
+            {"year": 2018, "value": "$88,000,000"},
+            {"year": 2020, "value": "$96,000,000"}
+          ],
+          "marketTrends": {
+            "yearlyAppreciation": "6.2%",
+            "areaMedianPrice": "$12,500,000",
+            "pricePerSqFt": "$9,600"
+          },
+          "nearbyProperties": [
+            {"address": "Central Park Penthouse", "value": "$88,000,000", "distance": "0.4 miles"},
+            {"address": "Luxury Condo", "value": "$65,000,000", "distance": "0.3 miles"}
+          ]
+        },
+        {
+          "address": "Medina Waterfront Mansion, Washington",
+          "coordinates": [47.6270, -122.2410],
+          "value": "$65,000,000",
+          "bedrooms": 7,
+          "bathrooms": 10,
+          "squareFootage": 29000,
+          "description": "Lakefront property with boat dock",
+          "boundaries": {
+            "northLat": 47.6280,
+            "southLat": 47.6260,
+            "eastLng": -122.2400,
+            "westLng": -122.2420
+          },
+          "history": [
+            {"year": 2015, "value": "$53,000,000"},
+            {"year": 2017, "value": "$59,000,000"},
+            {"year": 2019, "value": "$65,000,000"}
+          ],
+          "marketTrends": {
+            "yearlyAppreciation": "7.1%",
+            "areaMedianPrice": "$5,800,000",
+            "pricePerSqFt": "$2,241"
+          },
+          "nearbyProperties": [
+            {"address": "Lake Washington Estate", "value": "$45,000,000", "distance": "0.7 miles"},
+            {"address": "Tech Mogul Mansion", "value": "$38,000,000", "distance": "1.1 miles"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bill Gates",
+      "netWorth": "$120 billion",
+      "properties": [
+        {
+          "address": "Xanadu 2.0, Medina, Washington",
+          "coordinates": [47.6288, -122.2417],
+          "value": "$131,000,000",
+          "bedrooms": 7,
+          "bathrooms": 24,
+          "squareFootage": 66000,
+          "description": "High-tech lakefront mansion with underwater music system",
+          "boundaries": {
+            "northLat": 47.6298,
+            "southLat": 47.6278,
+            "eastLng": -122.2407,
+            "westLng": -122.2427
+          },
+          "history": [
+            {"year": 2010, "value": "$120,000,000"},
+            {"year": 2015, "value": "$125,000,000"},
+            {"year": 2020, "value": "$131,000,000"}
+          ],
+          "marketTrends": {
+            "yearlyAppreciation": "1.8%",
+            "areaMedianPrice": "$6,200,000",
+            "pricePerSqFt": "$1,985"
+          },
+          "nearbyProperties": [
+            {"address": "Tech Executive Estate", "value": "$85,000,000", "distance": "0.5 miles"},
+            {"address": "Lakefront Compound", "value": "$65,000,000", "distance": "0.8 miles"}
+          ]
+        },
+        {
+          "address": "Wellington, Florida Estate",
+          "coordinates": [26.6534, -80.2707],
+          "value": "$59,000,000",
+          "bedrooms": 8,
+          "bathrooms": 10,
+          "squareFootage": 15000,
+          "description": "Equestrian property with stables",
+          "boundaries": {
+            "northLat": 26.6544,
+            "southLat": 26.6524,
+            "eastLng": -80.2697,
+            "westLng": -80.2717
+          },
+          "history": [
+            {"year": 2013, "value": "$38,000,000"},
+            {"year": 2016, "value": "$47,000,000"},
+            {"year": 2019, "value": "$59,000,000"}
+          ],
+          "marketTrends": {
+            "yearlyAppreciation": "9.2%",
+            "areaMedianPrice": "$3,800,000",
+            "pricePerSqFt": "$3,933"
+          },
+          "nearbyProperties": [
+            {"address": "Equestrian Estate", "value": "$42,000,000", "distance": "1.2 miles"},
+            {"address": "Palm Beach Mansion", "value": "$38,000,000", "distance": "2.5 miles"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mark Zuckerberg",
+      "netWorth": "$100 billion",
+      "properties": [
+        {
+          "address": "Palo Alto Home, California",
+          "coordinates": [37.4419, -122.1430],
+          "value": "$7,000,000",
+          "bedrooms": 5,
+          "bathrooms": 5,
+          "squareFootage": 5000,
+          "description": "Primary residence in Silicon Valley",
+          "boundaries": {
+            "northLat": 37.4429,
+            "southLat": 37.4409,
+            "eastLng": -122.1420,
+            "westLng": -122.1440
+          },
+          "history": [
+            {"year": 2011, "value": "$7,000,000"},
+            {"year": 2015, "value": "$7,000,000"},
+            {"year": 2020, "value": "$7,000,000"}
+          ],
+          "marketTrends": {
+            "yearlyAppreciation": "0%",
+            "areaMedianPrice": "$3,900,000",
+            "pricePerSqFt": "$1,400"
+          },
+          "nearbyProperties": [
+            {"address": "Tech Executive Home", "value": "$6,800,000", "distance": "0.3 miles"},
+            {"address": "Silicon Valley Estate", "value": "$8,200,000", "distance": "0.5 miles"}
+          ]
+        },
+        {
+          "address": "Lake Tahoe Estate",
+          "coordinates": [39.0968, -120.0324],
+          "value": "$59,000,000",
+          "bedrooms": 8,
+          "bathrooms": 9,
+          "squareFootage": 15000,
+          "description": "Lakefront compound with guest houses",
+          "boundaries": {
+            "northLat": 39.0978,
+            "southLat": 39.0958,
+            "eastLng": -120.0314,
+            "westLng": -120.0334
+          },
+          "history": [
+            {"year": 2018, "value": "$37,000,000"},
+            {"year": 2019, "value": "$45,000,000"},
+            {"year": 2021, "value": "$59,000,000"}
+          ],
+          "marketTrends": {
+            "yearlyAppreciation": "26.3%",
+            "areaMedianPrice": "$4,200,000",
+            "pricePerSqFt": "$3,933"
+          },
+          "nearbyProperties": [
+            {"address": "Lakefront Mansion", "value": "$32,000,000", "distance": "1.0 miles"},
+            {"address": "Mountain Estate", "value": "$28,000,000", "distance": "1.5 miles"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Warren Buffett",
+      "netWorth": "$96 billion",
+      "properties": [
+        {
+          "address": "Omaha, Nebraska Home",
+          "coordinates": [41.2565, -96.0674],
+          "value": "$652,000",
+          "bedrooms": 5,
+          "bathrooms": 2.5,
+          "squareFootage": 6570,
+          "description": "Modest home purchased in 1958",
+          "boundaries": {
+            "northLat": 41.2568,
+            "southLat": 41.2562,
+            "eastLng": -96.0671,
+            "westLng": -96.0677
+          },
+          "history": [
+            {"year": 1958, "value": "$31,500"},
+            {"year": 1990, "value": "$250,000"},
+            {"year": 2020, "value": "$652,000"}
+          ],
+          "marketTrends": {
+            "yearlyAppreciation": "5.3%",
+            "areaMedianPrice": "$350,000",
+            "pricePerSqFt": "$99"
+          },
+          "nearbyProperties": [
+            {"address": "Suburban Home", "value": "$580,000", "distance": "0.2 miles"},
+            {"address": "Family Residence", "value": "$620,000", "distance": "0.4 miles"}
+          ]
+        }
+      ]
+    }
+  ]
+}
