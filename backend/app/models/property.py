@@ -33,6 +33,8 @@ class Property(Base):
     bookmarks = relationship("Bookmark", back_populates="property")
     ownerships = relationship("PropertyOwnership", back_populates="property")
     transactions = relationship("Transaction", back_populates="property")
+    external_mappings = relationship("PropertyMapping", back_populates="property")
+    images = relationship("PropertyImage", back_populates="property")
 
 class Bookmark(Base):
     __tablename__ = "bookmarks"

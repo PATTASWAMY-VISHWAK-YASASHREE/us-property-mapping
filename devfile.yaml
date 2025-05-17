@@ -1,0 +1,38 @@
+schemaVersion: 2.0.0
+metadata:
+  name: wealth-map
+  version: 1.0.0
+  displayName: Wealth Map Application
+  description: Full-stack application with Vue.js frontend and FastAPI backend
+components:
+  - name: dev
+    container:
+      image: public.ecr.aws/aws-mde/universal-image:latest
+      memoryLimit: 4Gi
+      mountSources: true
+      endpoints:
+        - name: frontend
+          targetPort: 8080
+          exposure: public
+        - name: backend
+          targetPort: 8000
+          exposure: public
+        - name: database
+          targetPort: 5432
+          exposure: internal
+commands:
+  - id: install
+    exec:
+      component: dev
+      commandLine: "cd frontend && npm install && cd ../backend && pip install -r requirements.txt"
+      workingDir: /projects
+  - id: build
+    exec:
+      component: dev
+      commandLine: "cd frontend && npm run build && cd ../backend && echo 'Backend is ready'"
+      workingDir: /projects
+  - id: test
+    exec:
+      component: dev
+      commandLine: "cd frontend && npm run lint && cd ../backend && pytest"
+      workingDir: /projects
