@@ -78,6 +78,10 @@ const props = defineProps({
     type: Array,
     default: () => []
   },
+  selectedProperty: {
+    type: Object,
+    default: null
+  },
   height: {
     type: String,
     default: '600px'
@@ -123,6 +127,17 @@ onBeforeUnmount(() => {
 watch(() => props.properties, (newProperties) => {
   updateMarkers(newProperties);
 }, { deep: true });
+
+// Watch for selected property changes
+watch(() => props.selectedProperty, (newSelectedProperty) => {
+  if (newSelectedProperty && newSelectedProperty !== selectedProperty.value) {
+    selectedProperty.value = newSelectedProperty;
+    // In a real app, you would center the map on the selected property
+    console.log('Map centered on selected property:', newSelectedProperty.address);
+  }
+});
+
+const emit = defineEmits(['property-selected']);
 
 // Methods
 const initializeMap = () => {
@@ -193,6 +208,7 @@ const createClusters = () => {
 
 const selectProperty = (property) => {
   selectedProperty.value = property;
+  emit('property-selected', property);
 };
 
 const closePropertyInfo = () => {
