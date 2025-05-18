@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 import uuid
 from datetime import datetime
 
-from app.db.base import Base
+from app.db.session import Base
 
 class ActivityLog(Base):
     __tablename__ = "activity_logs"

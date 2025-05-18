@@ -1,6 +1,13 @@
 from typing import Generator, Optional
 import uuid
 import logging
+import sys
+import os
+from pathlib import Path
+
+# Add the parent directory to sys.path
+backend_dir = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(backend_dir))
 
 from fastapi import Depends, HTTPException, status, Request, Header
 from fastapi.security import OAuth2PasswordBearer
@@ -10,7 +17,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.security import decode_token
-from app.db.session import SessionLocal
+from app.db.session import SessionLocal, get_db
 from app.models.user import User
 from app.models.token import TokenBlacklist
 from app.schemas.token import TokenPayload
@@ -21,16 +28,6 @@ logger = logging.getLogger(__name__)
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/auth/login"
 )
-
-def get_db() -> Generator:
-    """
-    Database dependency
-    """
-    try:
-        db = SessionLocal()
-        yield db
-    finally:
-        db.close()
 
 def verify_https(request: Request) -> None:
     """
@@ -129,7 +126,7 @@ def get_current_admin_user(
     """
     Get the current admin user
     """
-    if current_user.role != "admin":
+    if not current_user.is_admin:  # Changed from role to is_admin
         logger.warning(f"Non-admin user attempted admin action: {current_user.email}")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

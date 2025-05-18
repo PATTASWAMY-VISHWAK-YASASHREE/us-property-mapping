@@ -3,6 +3,13 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import QueuePool
 import time
+import sys
+import os
+from pathlib import Path
+
+# Add the parent directory to sys.path
+backend_dir = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(backend_dir))
 
 from app.core.config import settings
 
@@ -31,5 +38,13 @@ def after_cursor_execute(conn, cursor, statement, parameters, context, executema
 
 # Create session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Function to get a database session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 Base = declarative_base()

@@ -5,12 +5,18 @@ import os
 import time
 import json
 import logging
+import sys
+from pathlib import Path
 from typing import Dict, List, Optional, Any, Union
 import httpx
 from functools import lru_cache
 from datetime import datetime, timedelta
 
-from ..core.config import settings
+# Add the parent directory to sys.path
+backend_dir = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(backend_dir))
+
+from app.core.config import settings
 
 # Configure logging
 logger = logging.getLogger(__name__)

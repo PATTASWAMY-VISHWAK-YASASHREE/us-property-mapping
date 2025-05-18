@@ -30,6 +30,7 @@ class User(Base):
     mfa_secret = Column(String, nullable=True)
     
     company = relationship("Company", back_populates="users")
+    activities = relationship("ActivityLog", back_populates="user")
 
 class UserActivity(Base):
     __tablename__ = "user_activities"
@@ -38,4 +39,6 @@ class UserActivity(Base):
     user_id = Column(String, ForeignKey("users.id"))
     activity_type = Column(String, nullable=False)
     timestamp = Column(DateTime, default=datetime.datetime.utcnow)
+    description = Column(String, nullable=True)
+    ip_address = Column(String, nullable=True)
     details = Column(String, nullable=True)

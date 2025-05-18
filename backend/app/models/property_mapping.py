@@ -5,7 +5,7 @@ from sqlalchemy import Column, String, DateTime, ForeignKey
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
-from ..db.base import Base
+from ..db.session import Base
 
 class PropertyMapping(Base):
     """
