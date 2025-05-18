@@ -4,9 +4,9 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: ../docker/frontend/Dockerfile
+      dockerfile: ../docker/frontend/Dockerfile.dev
     ports:
-      - "8080:80"
+      - "8080:8080"
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -17,26 +17,35 @@ services:
       - backend
     networks:
       - wealth-map-network
+    command: npm run dev -- --host 0.0.0.0
 
   backend:
     build:
       context: ./backend
-      dockerfile: ../docker/backend/Dockerfile
+      dockerfile: ../docker/backend/Dockerfile.dev
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/wealth_map
-      - SECRET_KEY=your_secret_key_here
+      - SECRET_KEY=dev_secret_key_for_local_development_only
       - ALGORITHM=HS256
-      - ACCESS_TOKEN_EXPIRE_MINUTES=30
-      - RAPIDAPI_KEY=${RAPIDAPI_KEY}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=60
       - ENVIRONMENT=development
+      - MOCK_EXTERNAL_APIS=true
+      - ZILLOW_API_HOST=zillow-com1.p.rapidapi.com
+      - RAPIDAPI_KEY=mock_api_key
+      - MAPBOX_API_KEY=mock_api_key
+      - LOG_LEVEL=DEBUG
+      - SECURITY_LOG_FILE=/app/logs/security.log
+      - RATE_LIMIT_ENABLED=false
+      - HTTPS_ONLY=false
     depends_on:
       - db
     networks:
       - wealth-map-network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
   db:
     build:
@@ -46,6 +55,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init-db:/docker-entrypoint-initdb.d
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -53,9 +63,37 @@ services:
     networks:
       - wealth-map-network
 
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@wealthmap.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    depends_on:
+      - db
+    networks:
+      - wealth-map-network
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+  mock-api:
+    build:
+      context: ./docker/mock-api
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./docker/mock-api:/app
+    networks:
+      - wealth-map-network
+    environment:
+      - PORT=3000
+
 networks:
   wealth-map-network:
     driver: bridge
 
 volumes:
   postgres_data:
+  pgadmin_data:
