@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     # MFA settings
     MFA_ENABLED: bool = os.getenv("MFA_ENABLED", "True").lower() == "true"
     MFA_ISSUER: str = os.getenv("MFA_ISSUER", "WealthMapAPI")
+    MFA_REQUIRED: bool = os.getenv("MFA_REQUIRED", "True").lower() == "true"  # Require MFA for all users
     
     # Database
     DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@db:5432/wealth_map")
@@ -49,6 +50,7 @@ class Settings(BaseSettings):
     
     # API Keys
     RAPIDAPI_KEY: Optional[str] = os.getenv("RAPIDAPI_KEY")
+    MAPBOX_API_KEY: Optional[str] = os.getenv("MAPBOX_API_KEY")
     
     # Zillow API Settings
     ZILLOW_API_HOST: str = os.getenv("ZILLOW_API_HOST", "zillow-com1.p.rapidapi.com")
@@ -69,6 +71,23 @@ class Settings(BaseSettings):
     
     # HTTPS settings
     HTTPS_ONLY: bool = os.getenv("HTTPS_ONLY", "True").lower() == "true"
+    
+    # Frontend URL for links in emails
+    FRONTEND_URL: str = os.getenv("FRONTEND_URL", "http://localhost:5173")
+    
+    # Email settings
+    SMTP_SERVER: str = os.getenv("SMTP_SERVER", "")
+    SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
+    SMTP_USERNAME: Optional[str] = os.getenv("SMTP_USERNAME")
+    SMTP_PASSWORD: Optional[str] = os.getenv("SMTP_PASSWORD")
+    SMTP_SENDER: str = os.getenv("SMTP_SENDER", "noreply@wealthmap.com")
+    SMTP_TLS: bool = os.getenv("SMTP_TLS", "True").lower() == "true"
+    
+    # Invitation settings
+    INVITATION_EXPIRE_DAYS: int = int(os.getenv("INVITATION_EXPIRE_DAYS", "7"))
+    
+    # Map settings
+    MAP_TILE_CACHE_EXPIRY: int = int(os.getenv("MAP_TILE_CACHE_EXPIRY", "86400"))  # 24 hours in seconds
     
     class Config:
         case_sensitive = True
