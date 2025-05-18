@@ -32,6 +32,61 @@ Before running the tests, ensure you have the following installed:
 - Python 3.8+ for backend tests
 - Docker and Docker Compose for running the full application stack
 
+## Running Tests
+
+### Using the Test Runner Scripts
+
+For convenience, we provide scripts to run various tests:
+
+#### Linux/macOS:
+```bash
+# Run specific backend tests
+./run_tests.sh
+
+# Run all tests
+./run_tests.sh all
+```
+
+#### Windows:
+```batch
+# Run specific backend tests
+run_tests.bat
+
+# Run all backend and frontend tests
+run_tests.bat all
+
+# Run only backend tests
+run_tests.bat backend
+
+# Run only frontend tests
+run_tests.bat frontend
+
+# Run end-to-end tests
+run_tests.bat e2e
+
+# Open Cypress for interactive testing
+run_tests.bat e2e:open
+
+# Run frontend tests with coverage
+run_tests.bat coverage:frontend
+
+# Run backend tests with coverage
+run_tests.bat coverage:backend
+
+# Run frontend linting
+run_tests.bat lint
+
+# Run specific test categories
+run_tests.bat unit       # Backend unit tests
+run_tests.bat api        # Backend API tests
+run_tests.bat auth       # Authentication tests
+run_tests.bat property   # Property tests
+run_tests.bat perf       # Performance tests
+
+# Run tests matching a specific pattern
+run_tests.bat tests/api/test_auth.py
+```
+
 ## Unit Testing
 
 ### Backend Unit Tests
