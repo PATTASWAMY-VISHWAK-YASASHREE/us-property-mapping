@@ -8,6 +8,9 @@ class Login(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
+    refresh_token: Optional[str] = None
+    expires_in: Optional[int] = None  # Expiration time in seconds
+    mfa_required: Optional[bool] = False
     
 class RefreshToken(BaseModel):
     refresh_token: str
@@ -37,3 +40,8 @@ class MFAEnable(BaseModel):
     
 class MFAVerify(BaseModel):
     token: str
+
+class MFAResponse(BaseModel):
+    secret: str
+    qr_code: str
+    detail: str

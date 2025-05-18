@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Boolean, Column, String, Integer, ForeignKey, DateTime
+from sqlalchemy import Boolean, Column, String, Integer, ForeignKey, DateTime, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -35,8 +35,12 @@ class User(Base):
     role = Column(String(50), nullable=False, default="standard")
     is_active = Column(Boolean, default=True)
     last_login = Column(DateTime(timezone=True), nullable=True)
+    last_user_agent = Column(String(255), nullable=True)
+    failed_login_attempts = Column(Integer, default=0)
+    locked_until = Column(DateTime(timezone=True), nullable=True)
     mfa_enabled = Column(Boolean, default=False)
     mfa_secret = Column(String(255), nullable=True)
+    email_verified = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     
@@ -46,6 +50,7 @@ class User(Base):
     saved_searches = relationship("SavedSearch", back_populates="user")
     reports = relationship("Report", back_populates="user")
     activities = relationship("ActivityLog", back_populates="user")
+    refresh_tokens = relationship("RefreshToken", back_populates="user")
 
 class ActivityLog(Base):
     __tablename__ = "activity_logs"
@@ -55,9 +60,9 @@ class ActivityLog(Base):
     activity_type = Column(String(50), nullable=False)
     resource_type = Column(String(50), nullable=True)
     resource_id = Column(UUID(as_uuid=True), nullable=True)
-    description = Column(String, nullable=True)
+    description = Column(Text, nullable=True)
     ip_address = Column(String(45), nullable=True)
-    user_agent = Column(String, nullable=True)
+    user_agent = Column(String(255), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     
     # Relationships
