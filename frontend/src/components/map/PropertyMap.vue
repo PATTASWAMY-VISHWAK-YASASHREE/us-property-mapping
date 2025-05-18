@@ -144,7 +144,7 @@ const initializeMap = () => {
   // Performance optimization: Use requestAnimationFrame for smoother rendering
   requestAnimationFrame(() => {
     // In a real app, you would initialize your map library here
-    // Example for Mapbox GL (which has better performance than Google Maps for large datasets):
+    // Example for Zillow API integration (using code snippets)
     // mapboxgl.accessToken = 'your_mapbox_token';
     // map.value = new mapboxgl.Map({
     //   container: mapContainer.value,

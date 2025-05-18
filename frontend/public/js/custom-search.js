@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         geocodeXhr.open('GET', `https://maps-data.p.rapidapi.com/geocoding.php?query=${encodeURIComponent(query)}&lang=en&country=us`);
-        geocodeXhr.setRequestHeader('x-rapidapi-key', 'YOUR_RAPIDAPI_KEY');
+        geocodeXhr.setRequestHeader('x-rapidapi-key', '39ce75c22bmshef6d5494d5847e1p1579c2jsn0cb5a524de75');
         geocodeXhr.setRequestHeader('x-rapidapi-host', 'maps-data.p.rapidapi.com');
         
         geocodeXhr.send();

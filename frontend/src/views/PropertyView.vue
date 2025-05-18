@@ -124,6 +124,7 @@ import { useRoute } from 'vue-router'
 import { usePropertyStore } from '@/stores/property'
 import { useToast } from 'vue-toastification'
 import axios from 'axios'
+import zillowService from '@/services/zillowService'
 
 // Import components
 import PropertyDetail from '@/components/property/PropertyDetail.vue'
@@ -170,17 +171,22 @@ const fetchProperty = async () => {
 
 // Fetch additional property details
 const fetchPropertyDetails = async () => {
-  loadingDetails.value = true
+  loadingDetails.value = true;
   
   try {
-    // This would fetch additional details not included in the main property object
-    // For example, from Zillow API
-    await axios.get(`/api/properties/zillow/details/${property.value.id}`)
-    // Update property with additional details if needed
+    // Use our Zillow service to get property details
+    if (property.value && property.value.address) {
+      const response = await zillowService.getPropertyDetailsByAddress(property.value.address);
+      console.log('Zillow property details:', response);
+      // Update property with additional details if needed
+    } else {
+      // Fallback to API if we don't have an address
+      await axios.get(`/api/properties/zillow/details/${property.value.id}`);
+    }
   } catch (err) {
-    toast.error('Failed to load additional property details')
+    toast.error('Failed to load additional property details');
   } finally {
-    loadingDetails.value = false
+    loadingDetails.value = false;
   }
 }
 
@@ -220,18 +226,41 @@ const fetchTransactions = async () => {
 
 // Fetch comparable properties
 const fetchComparables = async () => {
-  if (activeTab.value !== 'comparables') return
+  if (activeTab.value !== 'comparables') return;
   
-  loadingComparables.value = true
+  loadingComparables.value = true;
   
   try {
-    const response = await axios.get(`/api/properties/zillow/comps/${propertyId.value}`)
-    comparableProperties.value = response.data.comparables || []
+    // Use our Zillow service to get comparable properties if we have property details
+    if (property.value && property.value.address) {
+      const params = {
+        address: property.value.address
+      };
+      
+      if (property.value.zillow_id) {
+        params.zpid = property.value.zillow_id;
+      }
+      
+      const response = await zillowService.getSimilarProperties(params);
+      console.log('Zillow comparable properties:', response);
+      
+      if (response && response.similar && response.similar.length > 0) {
+        comparableProperties.value = response.similar;
+      } else {
+        // Fallback to API if Zillow direct call doesn't return results
+        const apiResponse = await axios.get(`/api/properties/zillow/comps/${propertyId.value}`);
+        comparableProperties.value = apiResponse.data.comparables || [];
+      }
+    } else {
+      // Fallback to API if we don't have property details
+      const response = await axios.get(`/api/properties/zillow/comps/${propertyId.value}`);
+      comparableProperties.value = response.data.comparables || [];
+    }
   } catch (err) {
-    toast.error('Failed to load comparable properties')
-    comparableProperties.value = []
+    toast.error('Failed to load comparable properties');
+    comparableProperties.value = [];
   } finally {
-    loadingComparables.value = false
+    loadingComparables.value = false;
   }
 }
 

@@ -49,11 +49,11 @@ class Settings(BaseSettings):
     RATE_LIMIT_LOGIN: str = os.getenv("RATE_LIMIT_LOGIN", "5/minute")
     
     # API Keys
-    RAPIDAPI_KEY: Optional[str] = os.getenv("RAPIDAPI_KEY")
-    MAPBOX_API_KEY: Optional[str] = os.getenv("MAPBOX_API_KEY")
+    RAPIDAPI_KEY: str = "39ce75c22bmshef6d5494d5847e1p1579c2jsn0cb5a524de75"  # Hardcoded Zillow Rapid API key
+    # MAPBOX_API_KEY: Optional[str] = os.getenv("MAPBOX_API_KEY")  # Mapbox API key not needed
     
     # Zillow API Settings
-    ZILLOW_API_HOST: str = os.getenv("ZILLOW_API_HOST", "zillow-com1.p.rapidapi.com")
+    ZILLOW_API_HOST: str = "zillow-working-api.p.rapidapi.com"
     ZILLOW_CACHE_EXPIRY: int = int(os.getenv("ZILLOW_CACHE_EXPIRY", "3600"))  # 1 hour in seconds
     ZILLOW_MAX_RETRIES: int = int(os.getenv("ZILLOW_MAX_RETRIES", "3"))
     ZILLOW_RETRY_DELAY: int = int(os.getenv("ZILLOW_RETRY_DELAY", "2"))  # seconds

@@ -1,0 +1,120 @@
+const data = null;
+
+const xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener('readystatechange', function () {
+	if (this.readyState === this.DONE) {
+		console.log(this.responseText);
+	}
+});
+
+xhr.open('GET', 'https://zillow-working-api.p.rapidapi.com/autocomplete?query=649%20Keller%20St%2C%20Bay%20St%20Louis%2C%20MS%2039520');
+xhr.setRequestHeader('x-rapidapi-key', '39ce75c22bmshef6d5494d5847e1p1579c2jsn0cb5a524de75');
+xhr.setRequestHeader('x-rapidapi-host', 'zillow-working-api.p.rapidapi.com');
+
+xhr.send(data);
+
+
+const data = null;
+
+const xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener('readystatechange', function () {
+	if (this.readyState === this.DONE) {
+		console.log(this.responseText);
+	}
+});
+
+xhr.open('GET', 'https://zillow-working-api.p.rapidapi.com/search/byaddress?location=New%20York%2C%20NY&page=1&sortOrder=Homes_for_you&listingStatus=For_Sale&bed_min=No_Min&bed_max=No_Max&bathrooms=Any&homeType=Houses%2C%20Townhomes%2C%20Multi-family%2C%20Condos%2FCo-ops%2C%20Lots-Land%2C%20Apartments%2C%20Manufactured&maxHOA=Any&listingType=By_Agent&listingTypeOptions=Agent%20listed%2CNew%20Construction%2CFore-closures%2CAuctions&parkingSpots=Any&mustHaveBasement=No&daysOnZillow=Any&soldInLast=Any');
+xhr.setRequestHeader('x-rapidapi-key', '39ce75c22bmshef6d5494d5847e1p1579c2jsn0cb5a524de75');
+xhr.setRequestHeader('x-rapidapi-host', 'zillow-working-api.p.rapidapi.com');
+
+xhr.send(data);
+
+const data = null;
+
+const xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener('readystatechange', function () {
+	if (this.readyState === this.DONE) {
+		console.log(this.responseText);
+	}
+});
+
+xhr.open('GET', 'https://zillow-working-api.p.rapidapi.com/pro/byaddress?propertyaddress=1875%20AVONDALE%20Circle%2C%20Jacksonville%2C%20FL%2032205');
+xhr.setRequestHeader('x-rapidapi-key', '39ce75c22bmshef6d5494d5847e1p1579c2jsn0cb5a524de75');
+xhr.setRequestHeader('x-rapidapi-host', 'zillow-working-api.p.rapidapi.com');
+
+xhr.send(data);
+
+const data = null;
+
+const xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener('readystatechange', function () {
+	if (this.readyState === this.DONE) {
+		console.log(this.responseText);
+	}
+});
+
+xhr.open('GET', 'https://zillow-working-api.p.rapidapi.com/similar?byzpid=44471319&byurl=https%3A%2F%2Fwww.zillow.com%2Fhomedetails%2F415-South-St-APT-202-Honolulu-HI-96813%2F2089316022_zpid%2F&byaddress=1221%20Victoria%20St%20APT%20301%2C%20Honolulu%2C%20HI%2096814&bylotid=1001422618');
+xhr.setRequestHeader('x-rapidapi-key', '39ce75c22bmshef6d5494d5847e1p1579c2jsn0cb5a524de75');
+xhr.setRequestHeader('x-rapidapi-host', 'zillow-working-api.p.rapidapi.com');
+
+xhr.send(data);
+
+
+const data = null;
+
+const xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener('readystatechange', function () {
+	if (this.readyState === this.DONE) {
+		console.log(this.responseText);
+	}
+});
+
+xhr.open('GET', 'https://zillow-working-api.p.rapidapi.com/nearby?byzpid=44471319&byurl=https%3A%2F%2Fwww.zillow.com%2Fhomedetails%2F415-South-St-APT-202-Honolulu-HI-96813%2F2089316022_zpid%2F&byaddress=1221%20Victoria%20St%20APT%20301%2C%20Honolulu%2C%20HI%2096814&bylotid=1001422618');
+xhr.setRequestHeader('x-rapidapi-key', '39ce75c22bmshef6d5494d5847e1p1579c2jsn0cb5a524de75');
+xhr.setRequestHeader('x-rapidapi-host', 'zillow-working-api.p.rapidapi.com');
+
+xhr.send(data);
+
+const data = null;
+
+const xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener('readystatechange', function () {
+	if (this.readyState === this.DONE) {
+		console.log(this.responseText);
+	}
+});
+
+xhr.open('GET', 'https://zillow-working-api.p.rapidapi.com/pricehistory?byzpid=44466838&byurl=https%3A%2F%2Fwww.zillow.com%2Fhomedetails%2F3-W-Forest-Dr-Rochester-NY-14624%2F30907787_zpid%2F&byaddress=3%20W%20Forest%20Dr%2C%20Rochester%2C%20NY%2014624');
+xhr.setRequestHeader('x-rapidapi-key', '39ce75c22bmshef6d5494d5847e1p1579c2jsn0cb5a524de75');
+xhr.setRequestHeader('x-rapidapi-host', 'zillow-working-api.p.rapidapi.com');
+
+xhr.send(data);
+
+const data = null;
+
+const xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener('readystatechange', function () {
+	if (this.readyState === this.DONE) {
+		console.log(this.responseText);
+	}
+});
+
+xhr.open('GET', 'https://zillow-working-api.p.rapidapi.com/apartment_details?bylotid=1001422626&byapturl=https%3A%2F%2Fwww.zillow.com%2Fapartments%2Fnashville-tn%2Fparkwood-villa%2F5XhxdJ%2F');
+xhr.setRequestHeader('x-rapidapi-key', '39ce75c22bmshef6d5494d5847e1p1579c2jsn0cb5a524de75');
+xhr.setRequestHeader('x-rapidapi-host', 'zillow-working-api.p.rapidapi.com');
+
+xhr.send(data);

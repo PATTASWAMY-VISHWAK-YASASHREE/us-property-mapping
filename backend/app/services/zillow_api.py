@@ -37,20 +37,19 @@ class ZillowAPIService:
     - Request queuing
     """
     
-    BASE_URL = "https://zillow-com1.p.rapidapi.com"
+    BASE_URL = "https://zillow-working-api.p.rapidapi.com"
     CACHE_EXPIRY = settings.ZILLOW_CACHE_EXPIRY
     MAX_RETRIES = settings.ZILLOW_MAX_RETRIES
     RETRY_DELAY = settings.ZILLOW_RETRY_DELAY
     
     def __init__(self):
         """Initialize the Zillow API service."""
-        self.api_key = os.environ.get("RAPIDAPI_KEY", settings.RAPIDAPI_KEY)
-        if not self.api_key:
-            logger.warning("RAPIDAPI_KEY environment variable not set")
+        # Use the provided Zillow Rapid API key
+        self.api_key = "39ce75c22bmshef6d5494d5847e1p1579c2jsn0cb5a524de75"
         
         self.headers = {
             "X-RapidAPI-Key": self.api_key,
-            "X-RapidAPI-Host": settings.ZILLOW_API_HOST
+            "X-RapidAPI-Host": "zillow-working-api.p.rapidapi.com"
         }
         
         # Initialize cache
