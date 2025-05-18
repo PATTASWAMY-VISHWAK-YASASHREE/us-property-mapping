@@ -4,102 +4,96 @@ setlocal enabledelayedexpansion
 :: Run tests for the Wealth Map Platform
 echo Wealth Map Platform Test Runner
 
-:: Set colors for better readability
-set GREEN=[92m
-set YELLOW=[93m
-set RED=[91m
-set NC=[0m
-
 :: Check if a specific test was requested
 if "%1"=="" (
-    echo %YELLOW%Running specific backend tests (Zillow API and Email Service)...%NC%
+    echo Running specific backend tests (Zillow API and Email Service)...
     cd backend
-    echo %GREEN%Running Zillow API tests...%NC%
+    echo Running Zillow API tests...
     python -m pytest tests/test_zillow_api.py -v
-    echo %GREEN%Running Email Service tests...%NC%
+    echo Running Email Service tests...
     python -m pytest tests/services/test_email_service.py -v
     cd ..
 ) else if "%1"=="all" (
-    echo %YELLOW%Running all backend and frontend tests...%NC%
+    echo Running all backend and frontend tests...
     
-    echo %GREEN%Running backend tests...%NC%
+    echo Running backend tests...
     cd backend
     python -m pytest
     cd ..
     
-    echo %GREEN%Running frontend tests...%NC%
+    echo Running frontend tests...
     cd frontend
     call npm run test
     cd ..
 ) else if "%1"=="backend" (
-    echo %YELLOW%Running all backend tests...%NC%
+    echo Running all backend tests...
     cd backend
     python -m pytest
     cd ..
 ) else if "%1"=="frontend" (
-    echo %YELLOW%Running frontend unit tests...%NC%
+    echo Running frontend unit tests...
     cd frontend
     call npm run test
     cd ..
 ) else if "%1"=="e2e" (
-    echo %YELLOW%Running frontend end-to-end tests...%NC%
+    echo Running frontend end-to-end tests...
     cd frontend
     call npm run test:e2e
     cd ..
 ) else if "%1"=="e2e:open" (
-    echo %YELLOW%Opening Cypress for interactive end-to-end testing...%NC%
+    echo Opening Cypress for interactive end-to-end testing...
     cd frontend
     call npm run test:e2e:open
     cd ..
 ) else if "%1"=="coverage:frontend" (
-    echo %YELLOW%Running frontend tests with coverage...%NC%
+    echo Running frontend tests with coverage...
     cd frontend
     call npm run test:coverage
     cd ..
 ) else if "%1"=="coverage:backend" (
-    echo %YELLOW%Running backend tests with coverage...%NC%
+    echo Running backend tests with coverage...
     cd backend
     python -m pytest --cov=app --cov-report=html
-    echo %GREEN%Coverage report generated in backend/htmlcov/index.html%NC%
+    echo Coverage report generated in backend/htmlcov/index.html
     cd ..
 ) else if "%1"=="lint" (
-    echo %YELLOW%Running frontend linting...%NC%
+    echo Running frontend linting...
     cd frontend
     call npm run lint
     cd ..
 ) else if "%1"=="unit" (
-    echo %YELLOW%Running backend unit tests...%NC%
+    echo Running backend unit tests...
     cd backend
     python -m pytest -m unit
     cd ..
 ) else if "%1"=="api" (
-    echo %YELLOW%Running backend API tests...%NC%
+    echo Running backend API tests...
     cd backend
     python -m pytest -m api
     cd ..
 ) else if "%1"=="auth" (
-    echo %YELLOW%Running authentication tests...%NC%
+    echo Running authentication tests...
     cd backend
     python -m pytest -m auth
     cd ..
 ) else if "%1"=="property" (
-    echo %YELLOW%Running backend property tests...%NC%
+    echo Running backend property tests...
     cd backend
     python -m pytest -m property
     cd ..
 ) else if "%1"=="perf" (
-    echo %YELLOW%Running performance tests...%NC%
+    echo Running performance tests...
     cd backend
     python -m pytest tests/performance/locustfile.py -v
     cd ..
 ) else (
-    echo %YELLOW%Running tests matching pattern: %1%NC%
+    echo Running tests matching pattern: %1
     cd backend
     python -m pytest %1 -v
     cd ..
 )
 
-echo %GREEN%Tests completed.%NC%
+echo Tests completed.
 echo.
 echo Usage:
 echo   run_tests.bat                - Run specific backend tests (Zillow API and Email Service)
