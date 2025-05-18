@@ -10,7 +10,11 @@
     "format": "prettier --write src/",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "cypress run",
+    "test:e2e:open": "cypress open",
+    "test:e2e:ci": "cypress run --headless",
+    "test:perf": "lighthouse-ci"
   },
   "dependencies": {
     "axios": "^1.6.0",
@@ -40,6 +44,18 @@
     "jsdom": "^22.1.0",
     "prettier": "^3.0.3",
     "vite": "^4.5.0",
-    "vitest": "^0.34.6"
+    "vitest": "^0.34.6",
+    "cypress": "^13.5.0",
+    "cypress-axe": "^1.5.0",
+    "cypress-real-events": "^1.10.0",
+    "cypress-viewport": "^2.0.0",
+    "cypress-wait-until": "^2.0.1",
+    "@cypress/code-coverage": "^3.12.1",
+    "@lhci/cli": "^0.12.0",
+    "lighthouse": "^11.3.0",
+    "c8": "^8.0.1",
+    "happy-dom": "^12.10.3",
+    "@testing-library/vue": "^7.0.0",
+    "msw": "^2.0.8"
   }
 }
