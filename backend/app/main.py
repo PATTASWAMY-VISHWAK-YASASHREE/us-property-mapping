@@ -5,6 +5,7 @@ import logging
 from app.db.init_db import init_db, create_initial_admin
 from app.db.run_migrations import run_migrations
 from app.db.session import SessionLocal
+from app.api.router import api_router
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -24,23 +25,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Import and include routers
-from app.api.auth import router as auth_router
-from app.api.users import router as users_router
-from app.api.properties import router as properties_router
-from app.api.owners import router as owners_router
-from app.api.search import router as search_router
-from app.api.reports import router as reports_router
-from app.api.admin import router as admin_router
-
-# Include routers
-app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
-app.include_router(users_router, prefix="/api/users", tags=["User Management"])
-app.include_router(properties_router, prefix="/api/properties", tags=["Properties"])
-app.include_router(owners_router, prefix="/api/owners", tags=["Owners"])
-app.include_router(search_router, prefix="/api/search", tags=["Search"])
-app.include_router(reports_router, prefix="/api/reports", tags=["Reports"])
-app.include_router(admin_router, prefix="/api/admin", tags=["Admin"])
+# Include API router
+app.include_router(api_router, prefix="/api")
 
 @app.get("/")
 async def root():
