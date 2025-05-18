@@ -1,0 +1,403 @@
+/* Main Styles for Wealth Map Platform */
+
+/* Global Styles */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --light-bg: #f8f9fa;
+    --dark-bg: #343a40;
+    --text-color: #333;
+    --light-text: #f8f9fa;
+    --border-color: #dee2e6;
+    --shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--light-bg);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header Styles */
+header {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.search-container {
+    display: flex;
+    flex: 1;
+    max-width: 600px;
+    margin: 0.5rem 0;
+}
+
+#search-input {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 1rem;
+}
+
+#search-button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    transition: background-color 0.3s;
+}
+
+#search-button:hover {
+    background-color: #2980b9;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Main Content Layout */
+.main-content {
+    display: flex;
+    flex: 1;
+    position: relative;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 300px;
+    background-color: white;
+    border-right: 1px solid var(--border-color);
+    padding: 1rem;
+    overflow-y: auto;
+    height: calc(100vh - 60px - 60px); /* Subtract header and footer height */
+}
+
+.filter-section h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.filter-group {
+    margin-bottom: 1.5rem;
+}
+
+.filter-group h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--dark-bg);
+}
+
+.range-slider {
+    display: flex;
+    flex-direction: column;
+}
+
+.range-slider input {
+    margin-bottom: 0.5rem;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkbox-group label {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input {
+    margin-right: 0.5rem;
+}
+
+#apply-filters {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+#apply-filters:hover {
+    background-color: #2980b9;
+}
+
+/* Map Styles */
+#map {
+    flex: 1;
+    height: calc(100vh - 60px - 60px); /* Subtract header and footer height */
+}
+
+/* Property Details Panel */
+.property-details {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 400px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    z-index: 1000;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    display: none; /* Hidden by default */
+}
+
+.property-details.active {
+    display: block;
+}
+
+.close-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--dark-bg);
+}
+
+#property-address {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    padding-right: 1.5rem;
+}
+
+.details-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-color);
+    opacity: 0.7;
+    transition: opacity 0.3s, border-bottom 0.3s;
+}
+
+.tab-button.active {
+    opacity: 1;
+    border-bottom: 3px solid var(--secondary-color);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.detail-row {
+    display: flex;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.detail-label {
+    font-weight: 600;
+    width: 40%;
+    color: var(--dark-bg);
+}
+
+.detail-value {
+    width: 60%;
+}
+
+/* Timeline in History Tab */
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-color: var(--border-color);
+}
+
+.timeline-item {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.timeline-date {
+    position: absolute;
+    left: -2rem;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.timeline-content {
+    background-color: var(--light-bg);
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+}
+
+.timeline-content h4 {
+    margin-bottom: 0.25rem;
+    color: var(--primary-color);
+}
+
+.timeline-content p {
+    font-size: 0.9rem;
+}
+
+/* Footer Styles */
+footer {
+    background-color: var(--dark-bg);
+    color: var(--light-text);
+    padding: 1rem 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+footer p {
+    margin: 0.25rem 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .main-content {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    #map {
+        height: 60vh;
+    }
+    
+    .property-details {
+        width: 90%;
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    header h1 {
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    
+    .search-container {
+        max-width: 100%;
+    }
+}
+
+/* Search Results Styles */
+#searchResults {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-top: none;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: var(--shadow);
+}
+
+.result-item {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.result-item:hover {
+    background-color: var(--light-bg);
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.no-results {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-color);
+}
+
+/* Map Marker Popup Styles */
+.leaflet-popup-content {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.leaflet-popup-content h3 {
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.leaflet-popup-content p {
+    margin: 3px 0;
+    font-size: 0.9rem;
+}
