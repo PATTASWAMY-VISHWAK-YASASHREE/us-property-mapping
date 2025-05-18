@@ -1,5 +1,4 @@
 #!/bin/bash
 cd /workspace/backend
 export PYTHONPATH=/workspace/backend
-echo "Running tests with PYTHONPATH=$PYTHONPATH"
 python -m pytest

@@ -1,4 +1,13 @@
 import pytest
+import sys
+import os
+from pathlib import Path
+
+# Add the backend directory to the Python path
+backend_dir = Path(__file__).parent.parent.absolute()
+sys.path.insert(0, str(backend_dir))
+os.environ["PYTHONPATH"] = str(backend_dir)
+
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
