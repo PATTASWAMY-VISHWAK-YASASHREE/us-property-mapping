@@ -57,7 +57,7 @@ if not exist .\backend\.env (
     echo Creating backend/.env file with default values...
     (
         echo # Database
-        echo DATABASE_URL=postgresql://postgres:postgres@db:5432/wealth_map
+        echo DATABASE_URL=postgresql://postgres:vishwak@db:5432/wealth_map
         echo.
         echo # Security
         echo SECRET_KEY=dev_secret_key_for_local_development_only
@@ -175,7 +175,7 @@ call :print_section "Starting Services (Local Development)"
 echo Please ensure PostgreSQL is running locally with the following configuration:
 echo   - Database: wealth_map
 echo   - Username: postgres
-echo   - Password: postgres
+echo   - Password: vishwak
 echo   - Port: 5432
 
 :: Start backend in background

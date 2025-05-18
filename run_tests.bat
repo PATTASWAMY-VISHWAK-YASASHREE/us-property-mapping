@@ -4,10 +4,15 @@ setlocal enabledelayedexpansion
 :: Run tests for the Wealth Map Platform
 echo Wealth Map Platform Test Runner
 
+:: Set environment variables for tests
+set DATABASE_URL=postgresql://postgres:vishwak@localhost:5432/wealth_map
+
 :: Check if a specific test was requested
 if "%1"=="" (
     echo Running specific backend tests (Zillow API and Email Service)...
     cd backend
+    echo Running database connection test...
+    python -m pytest tests/test_db_connection.py -v
     echo Running Zillow API tests...
     python -m pytest tests/test_zillow_api.py -v
     echo Running Email Service tests...
@@ -81,6 +86,11 @@ if "%1"=="" (
     cd backend
     python -m pytest -m property
     cd ..
+) else if "%1"=="db" (
+    echo Running database connection test...
+    cd backend
+    python -m pytest tests/test_db_connection.py -v
+    cd ..
 ) else if "%1"=="perf" (
     echo Running performance tests...
     cd backend
@@ -92,22 +102,3 @@ if "%1"=="" (
     python -m pytest %1 -v
     cd ..
 )
-
-echo Tests completed.
-echo.
-echo Usage:
-echo   run_tests.bat                - Run specific backend tests (Zillow API and Email Service)
-echo   run_tests.bat all            - Run all backend and frontend tests
-echo   run_tests.bat backend        - Run all backend tests
-echo   run_tests.bat frontend       - Run frontend unit tests
-echo   run_tests.bat e2e            - Run frontend end-to-end tests
-echo   run_tests.bat e2e:open       - Open Cypress for interactive end-to-end testing
-echo   run_tests.bat coverage:frontend - Run frontend tests with coverage
-echo   run_tests.bat coverage:backend  - Run backend tests with coverage
-echo   run_tests.bat lint           - Run frontend linting
-echo   run_tests.bat unit           - Run backend unit tests
-echo   run_tests.bat api            - Run backend API tests
-echo   run_tests.bat auth           - Run authentication tests
-echo   run_tests.bat property       - Run backend property tests
-echo   run_tests.bat perf           - Run performance tests
-echo   run_tests.bat [pattern]      - Run backend tests matching pattern (e.g., tests/api/test_auth.py)

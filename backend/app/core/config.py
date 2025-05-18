@@ -23,15 +23,40 @@ class Settings(BaseSettings):
     DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@db:5432/wealth_map")
     
     # CORS
-    BACKEND_CORS_ORIGINS: List[str] = os.getenv("BACKEND_CORS_ORIGINS", "").split(",")
+    BACKEND_CORS_ORIGINS: List[str] = os.getenv("BACKEND_CORS_ORIGINS", "")
     
     @validator("BACKEND_CORS_ORIGINS", pre=True)
-    def assemble_cors_origins(cls, v: str) -> List[str]:
-        if isinstance(v, str) and not v.strip():
+    def assemble_cors_origins(cls, v) -> List[str]:
+        """Process CORS origins from different input types.
+        
+        Handles:
+        - Empty string or None: Returns empty list
+        - String with comma-separated values: Splits and returns as list
+        - JSON string containing a list: Parses and returns as list
+        - List: Returns as is (after stripping)
+        - Any other type: Returns empty list
+        """
+        if v is None:
             return []
-        if isinstance(v, (list, str)):
-            return [origin.strip() for origin in v.split(",") if origin]
-        raise ValueError(v)
+            
+        if isinstance(v, str):
+            if not v.strip():
+                return []
+            try:
+                # Try to parse as JSON
+                import json
+                parsed = json.loads(v)
+                if isinstance(parsed, list):
+                    return [origin.strip() for origin in parsed if origin]
+            except (json.JSONDecodeError, ValueError):
+                # Not JSON, treat as comma-separated string
+                return [origin.strip() for origin in v.split(",") if origin]
+                
+        if isinstance(v, list):
+            return [str(origin).strip() for origin in v if origin]
+            
+        # For any other type, return empty list
+        return []
     
     # Security headers
     SECURITY_HEADERS: Dict[str, str] = {
