@@ -112,13 +112,14 @@ const fetchSuggestions = debounce(async (query) => {
   isLoading.value = true
   
   try {
-    // Fetch property suggestions
-    const propertyResults = await propertyStore.searchProperties(query)
-    
-    // Fetch owner suggestions
-    const ownerResults = await wealthStore.searchOwners(query)
+    // Use Promise.all for parallel requests to improve performance
+    const [propertyResults, ownerResults] = await Promise.all([
+      propertyStore.searchProperties(query),
+      wealthStore.searchOwners(query)
+    ])
     
     // Combine and format suggestions
+    // Limit results to improve rendering performance
     suggestions.value = [
       ...propertyResults.slice(0, 3).map(property => ({
         type: 'property',

@@ -141,68 +141,180 @@ const emit = defineEmits(['property-selected']);
 
 // Methods
 const initializeMap = () => {
-  // Simulate map initialization
-  setTimeout(() => {
+  // Performance optimization: Use requestAnimationFrame for smoother rendering
+  requestAnimationFrame(() => {
     // In a real app, you would initialize your map library here
-    // Example for Google Maps:
-    // map.value = new google.maps.Map(mapContainer.value, {
-    //   center: props.initialCenter,
+    // Example for Mapbox GL (which has better performance than Google Maps for large datasets):
+    // mapboxgl.accessToken = 'your_mapbox_token';
+    // map.value = new mapboxgl.Map({
+    //   container: mapContainer.value,
+    //   style: 'mapbox://styles/mapbox/streets-v11',
+    //   center: [props.initialCenter.lng, props.initialCenter.lat],
     //   zoom: props.initialZoom,
-    //   mapTypeId: google.maps.MapTypeId.ROADMAP
+    //   maxZoom: 18,
+    //   minZoom: 3,
+    //   attributionControl: false,
+    //   renderWorldCopies: true,
+    //   preserveDrawingBuffer: false, // Better performance
+    //   antialias: true
+    // });
+    
+    // Add performance monitoring
+    // map.value.on('render', () => {
+    //   const fps = Math.round(map.value.frameRate);
+    //   if (fps < 30) console.warn(`Low map framerate: ${fps} FPS`);
     // });
     
     console.log('Map initialized');
     isLoading.value = false;
     
-    // Add markers for properties
+    // Add markers for properties using efficient methods
     updateMarkers(props.properties);
-  }, 1000);
+  });
 };
 
 const updateMarkers = (properties) => {
   // Clear existing markers
   clearMarkers();
   
-  // Add new markers
-  properties.forEach(property => {
-    addMarker(property);
-  });
+  // Performance optimization: Use worker for processing large datasets
+  if (properties.length > 500) {
+    // Use batch processing for large datasets
+    processBatchedMarkers(properties);
+  } else {
+    // For smaller datasets, process directly
+    properties.forEach(property => {
+      addMarker(property);
+    });
+  }
   
-  // Create clusters
+  // Create clusters for better performance with many markers
   createClusters();
+};
+
+// Process markers in batches to avoid blocking the main thread
+const processBatchedMarkers = (properties) => {
+  const batchSize = 100;
+  let currentIndex = 0;
+  
+  const processBatch = () => {
+    const endIndex = Math.min(currentIndex + batchSize, properties.length);
+    
+    // Process a batch of properties
+    for (let i = currentIndex; i < endIndex; i++) {
+      addMarker(properties[i]);
+    }
+    
+    currentIndex = endIndex;
+    
+    // If there are more properties to process, schedule next batch
+    if (currentIndex < properties.length) {
+      requestAnimationFrame(processBatch);
+    } else {
+      // All properties processed, create clusters
+      createClusters();
+    }
+  };
+  
+  // Start processing the first batch
+  requestAnimationFrame(processBatch);
 };
 
 const addMarker = (property) => {
   // In a real app, you would create actual map markers
-  // Example for Google Maps:
-  // const marker = new google.maps.Marker({
-  //   position: { lat: property.latitude, lng: property.longitude },
-  //   map: map.value,
-  //   title: property.address
-  // });
+  // Example for Mapbox GL (more efficient than Google Maps):
   // 
-  // marker.addListener('click', () => {
-  //   selectProperty(property);
-  // });
+  // For better performance with many markers, use a custom WebGL layer instead of individual markers
+  // if (markers.value.length === 0) {
+  //   // Initialize the custom markers layer
+  //   map.value.addSource('properties', {
+  //     type: 'geojson',
+  //     data: {
+  //       type: 'FeatureCollection',
+  //       features: []
+  //     },
+  //     cluster: true,
+  //     clusterMaxZoom: 14,
+  //     clusterRadius: 50
+  //   });
+  //   
+  //   // Add a layer for the clusters
+  //   map.value.addLayer({
+  //     id: 'clusters',
+  //     type: 'circle',
+  //     source: 'properties',
+  //     filter: ['has', 'point_count'],
+  //     paint: {
+  //       'circle-color': '#4a6cf7',
+  //       'circle-radius': [
+  //         'step',
+  //         ['get', 'point_count'],
+  //         20, 100,
+  //         30, 750,
+  //         40
+  //       ]
+  //     }
+  //   });
+  //   
+  //   // Add a layer for individual points
+  //   map.value.addLayer({
+  //     id: 'unclustered-point',
+  //     type: 'circle',
+  //     source: 'properties',
+  //     filter: ['!', ['has', 'point_count']],
+  //     paint: {
+  //       'circle-color': '#4a6cf7',
+  //       'circle-radius': 8,
+  //       'circle-stroke-width': 1,
+  //       'circle-stroke-color': '#fff'
+  //     }
+  //   });
+  // }
   // 
-  // markers.value.push(marker);
+  // // Add this property to the GeoJSON source
+  // const source = map.value.getSource('properties');
+  // const data = source._data;
+  // data.features.push({
+  //   type: 'Feature',
+  //   geometry: {
+  //     type: 'Point',
+  //     coordinates: [property.longitude, property.latitude]
+  //   },
+  //   properties: {
+  //     id: property.id,
+  //     address: property.address,
+  //     price: property.price,
+  //     type: property.type,
+  //     ...property
+  //   }
+  // });
+  // source.setData(data);
+  // 
+  // // Store reference to the property for later use
+  // markers.value.push(property);
   
+  // For demonstration purposes
   console.log(`Added marker for property: ${property.address}`);
 };
 
 const clearMarkers = () => {
-  // In a real app, you would remove markers from the map
-  // markers.value.forEach(marker => marker.setMap(null));
+  // In a real app with Mapbox GL:
+  // if (map.value && map.value.getSource('properties')) {
+  //   const source = map.value.getSource('properties');
+  //   source.setData({
+  //     type: 'FeatureCollection',
+  //     features: []
+  //   });
+  // }
+  
   markers.value = [];
 };
 
 const createClusters = () => {
-  // In a real app, you would create marker clusters
-  // Example for Google Maps with MarkerClusterer:
-  // const markerCluster = new MarkerClusterer(map.value, markers.value, {
-  //   imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
-  // });
+  // With Mapbox GL, clustering is handled automatically by the source configuration
+  // No need for additional clustering code as it's built into the map source
   
+  // For demonstration purposes
   console.log('Created marker clusters');
 };
 

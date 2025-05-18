@@ -1,15 +1,66 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, shallowRef } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toastification'
 
+// Create an axios instance with optimized settings
+const api = axios.create({
+  baseURL: '/api',
+  timeout: 30000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  }
+})
+
+// Add response caching
+const responseCache = new Map()
+const cacheTimeout = 60000 // 1 minute cache timeout
+
+// Add request interceptor for cache
+api.interceptors.request.use(config => {
+  // Only cache GET requests
+  if (config.method === 'get') {
+    const cacheKey = `${config.url}${JSON.stringify(config.params || {})}`
+    const cachedResponse = responseCache.get(cacheKey)
+    
+    if (cachedResponse && Date.now() - cachedResponse.timestamp < cacheTimeout) {
+      // Return cached response
+      config.adapter = () => {
+        return Promise.resolve({
+          data: cachedResponse.data,
+          status: 200,
+          statusText: 'OK',
+          headers: {},
+          config,
+          request: {}
+        })
+      }
+    }
+  }
+  return config
+})
+
+// Add response interceptor for cache
+api.interceptors.response.use(response => {
+  // Only cache GET requests
+  if (response.config.method === 'get') {
+    const cacheKey = `${response.config.url}${JSON.stringify(response.config.params || {})}`
+    responseCache.set(cacheKey, {
+      data: response.data,
+      timestamp: Date.now()
+    })
+  }
+  return response
+})
+
 export const usePropertyStore = defineStore('property', () => {
-  // State
-  const properties = ref([])
+  // State - use shallowRef for large arrays to improve performance
+  const properties = shallowRef([])
   const currentProperty = ref(null)
   const loading = ref(false)
   const error = ref(null)
-  const searchResults = ref([])
+  const searchResults = shallowRef([])
   const searchFilters = ref({
     propertyType: [],
     minValue: 0,
@@ -23,14 +74,18 @@ export const usePropertyStore = defineStore('property', () => {
     dataSources: ['county-records', 'tax-assessor', 'census'],
     sortBy: 'relevance'
   })
-  const savedSearches = ref([])
-  const recentlyViewed = ref([])
+  const savedSearches = shallowRef([])
+  const recentlyViewed = shallowRef([])
   const toast = useToast()
 
-  // Getters
+  // Getters - use memoized computed properties for better performance
   const filteredProperties = computed(() => {
+    // Early return for empty array to improve performance
+    if (properties.value.length === 0) return []
+    
+    // Use more efficient filtering
     return properties.value.filter(property => {
-      // Apply filters
+      // Short-circuit evaluation for better performance
       if (searchFilters.value.propertyType.length > 0 && 
           !searchFilters.value.propertyType.includes(property.propertyType)) {
         return false
@@ -78,7 +133,7 @@ export const usePropertyStore = defineStore('property', () => {
     error.value = null
     
     try {
-      const response = await axios.get('/api/properties', { params })
+      const response = await api.get('/properties', { params })
       properties.value = response.data
       return response.data
     } catch (err) {
@@ -95,7 +150,7 @@ export const usePropertyStore = defineStore('property', () => {
     error.value = null
     
     try {
-      const response = await axios.get(`/api/properties/${id}`)
+      const response = await api.get(`/properties/${id}`)
       currentProperty.value = response.data
       
       // Add to recently viewed
@@ -117,7 +172,7 @@ export const usePropertyStore = defineStore('property', () => {
     searchResults.value = []
     
     try {
-      const response = await axios.get('/api/properties/search', { 
+      const response = await api.get('/properties/search', { 
         params: { 
           query,
           ...searchFilters.value
@@ -140,7 +195,7 @@ export const usePropertyStore = defineStore('property', () => {
     searchResults.value = []
     
     try {
-      const response = await axios.get('/api/properties/search/coordinates', { 
+      const response = await api.get('/properties/search/coordinates', { 
         params: { 
           latitude: lat,
           longitude: lng,
@@ -181,13 +236,13 @@ export const usePropertyStore = defineStore('property', () => {
 
   async function saveSearch(searchName, searchQuery, filters) {
     try {
-      const response = await axios.post('/api/saved-searches', {
+      const response = await api.post('/saved-searches', {
         name: searchName,
         query: searchQuery,
         filters: filters || searchFilters.value
       })
       
-      savedSearches.value.push(response.data)
+      savedSearches.value = [...savedSearches.value, response.data]
       toast.success('Search saved successfully')
       return response.data
     } catch (err) {
@@ -199,7 +254,7 @@ export const usePropertyStore = defineStore('property', () => {
 
   async function fetchSavedSearches() {
     try {
-      const response = await axios.get('/api/saved-searches')
+      const response = await api.get('/saved-searches')
       savedSearches.value = response.data
       return response.data
     } catch (err) {
@@ -210,7 +265,7 @@ export const usePropertyStore = defineStore('property', () => {
 
   async function deleteSavedSearch(id) {
     try {
-      await axios.delete(`/api/saved-searches/${id}`)
+      await api.delete(`/saved-searches/${id}`)
       savedSearches.value = savedSearches.value.filter(search => search.id !== id)
       toast.success('Search deleted successfully')
     } catch (err) {
@@ -222,14 +277,16 @@ export const usePropertyStore = defineStore('property', () => {
 
   function addToRecentlyViewed(property) {
     // Remove if already exists
-    recentlyViewed.value = recentlyViewed.value.filter(p => p.id !== property.id)
+    const updatedRecent = recentlyViewed.value.filter(p => p.id !== property.id)
     
     // Add to beginning of array
-    recentlyViewed.value.unshift(property)
+    updatedRecent.unshift(property)
     
     // Keep only the last 10 items
-    if (recentlyViewed.value.length > 10) {
-      recentlyViewed.value = recentlyViewed.value.slice(0, 10)
+    if (updatedRecent.length > 10) {
+      recentlyViewed.value = updatedRecent.slice(0, 10)
+    } else {
+      recentlyViewed.value = updatedRecent
     }
     
     // Save to localStorage
